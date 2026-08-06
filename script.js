@@ -12,6 +12,11 @@ const PLAYLIST = [
   { title: "Track One",   src: "track1.mp3" },
   { title: "Track Two",   src: "track2.mp3" },
   { title: "Track Three", src: "track3.mp3" },
+  { title: "Track Four",  src: "track4.mp3" },
+  { title: "Track Five",  src: "track5.mp3" },
+  { title: "Track Six",   src: "track6.mp3" },
+  { title: "Track Seven", src: "track7.mp3" },
+  { title: "Track Eight", src: "track8.mp3" },
 ];
 
 // Path to the PDF shown in the viewer.
