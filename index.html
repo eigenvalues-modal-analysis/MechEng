@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fundamentals of Mechanical Engineering — Personal Reference Library</title>
+  <meta name="description" content="A personal engineering reference portal with an integrated study music player." />
+
+  <!-- Typography: Inter for UI, JetBrains Mono for data/timecodes. Falls back to system fonts offline. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===================== HEADER ===================== -->
+  <header class="masthead">
+    <p class="eyebrow">Personal Reference Library</p>
+    <h1 class="title">Fundamentals of Mechanical Engineering</h1>
+    <div class="rule" aria-hidden="true"></div>
+  </header>
+
+  <!-- ===================== DOCUMENT VIEWER ===================== -->
+  <main class="viewer-wrap">
+    <section class="doc-card" aria-label="Reference document">
+      <div class="doc-toolbar">
+        <span class="doc-label">
+          <svg class="doc-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M14 2v6h6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+          fundamentals.pdf
+        </span>
+        <a class="doc-open" id="doc-open" href="docs/fundamentals.pdf" target="_blank" rel="noopener">
+          Open in new tab ↗
+        </a>
+      </div>
+
+      <!-- The PDF is injected here by script.js. If it is missing, a placeholder is shown instead. -->
+      <div class="doc-stage" id="doc-stage">
+        <div class="doc-loading" id="doc-loading">Loading document…</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FLOATING MUSIC PLAYER ===================== -->
+  <!-- role=region so screen readers can jump to it; controls are labelled individually. -->
+  <div class="player" id="player" role="region" aria-label="Study music player">
+    <!-- Track metadata -->
+    <div class="player-meta">
+      <div class="player-art" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="18" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      </div>
+      <div class="player-text">
+        <span class="player-track" id="track-title">—</span>
+        <span class="player-status" id="track-status">Ready</span>
+      </div>
+    </div>
+
+    <!-- Progress + timecodes -->
+    <div class="player-progress">
+      <span class="time" id="time-current">0:00</span>
+      <div class="progress" id="progress" role="slider" tabindex="0"
+           aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-fill" id="progress-fill"></div>
+        <div class="progress-knob" id="progress-knob"></div>
+      </div>
+      <span class="time" id="time-total">0:00</span>
+    </div>
+
+    <!-- Transport controls -->
+    <div class="player-controls">
+      <button class="ctrl" id="btn-shuffle" aria-label="Shuffle" aria-pressed="false" title="Shuffle">
+        <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <button class="ctrl" id="btn-prev" aria-label="Previous track" title="Previous">
+        <svg viewBox="0 0 24 24"><path d="M19 20 9 12l10-8zM5 19V5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+      </button>
+
+      <button class="ctrl ctrl-primary" id="btn-play" aria-label="Play" title="Play / Pause">
+        <!-- Play icon (default) -->
+        <svg class="icon-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" fill="currentColor"/></svg>
+        <!-- Pause icon (hidden until playing) -->
+        <svg class="icon-pause" viewBox="0 0 24 24" hidden><path d="M7 4h4v16H7zM13 4h4v16h-4z" fill="currentColor"/></svg>
+      </button>
+
+      <button class="ctrl" id="btn-next" aria-label="Next track" title="Next">
+        <svg viewBox="0 0 24 24"><path d="M5 4 15 12 5 20zM19 5v14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+      </button>
+
+      <button class="ctrl" id="btn-repeat" aria-label="Repeat off" aria-pressed="false" title="Repeat">
+        <svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="repeat-one" id="repeat-one" hidden>1</span>
+      </button>
+    </div>
+
+    <!-- Volume -->
+    <div class="player-volume">
+      <button class="ctrl ctrl-vol" id="btn-mute" aria-label="Mute" title="Mute (M)">
+        <svg class="icon-vol" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="icon-mute" viewBox="0 0 24 24" hidden><path d="M11 5 6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <input type="range" id="volume" class="volume-slider" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
