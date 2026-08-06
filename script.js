@@ -404,13 +404,17 @@ function embedPdf() {
       </div>
     </object>`;
 }
-
-// Check whether the PDF exists before embedding. HEAD works on GitHub Pages.
+// Check whether the PDF exists before embedding.
 function initPdf() {
   fetch(PDF_PATH, { method: "HEAD" })
-    .then((res) => { res.ok ? embedPdf() : showPdfPlaceholder(); })
-    // A thrown fetch usually means local file:// testing, not a real 404 —
-    // embed anyway and let the <object> fallback handle any genuine miss.
+    .then((res) => {
+      // Only show the placeholder if the file is genuinely missing (404).
+      // Some hosts return other statuses for HEAD even when the file exists,
+      // so we embed in every non-404 case.
+      if (res.status === 404) showPdfPlaceholder();
+      else embedPdf();
+    })
+    // A thrown fetch usually means local file:// testing — embed anyway.
     .catch(() => embedPdf());
 }
 
