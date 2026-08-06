@@ -20,7 +20,7 @@ const PLAYLIST = [
 ];
 
 // Path to the PDF shown in the viewer.
-const PDF_PATH = "fundamentals.pdf";
+const PDF_PATH = "fundamentalz.pdf";
 
 // localStorage namespace (bump this to reset everyone's saved state).
 const STORAGE_KEY = "study-dashboard-v1";
