@@ -9,13 +9,13 @@
 
 // Add / reorder / remove tracks here. `title` is what the UI shows.
 const PLAYLIST = [
-  { title: "Track One",   src: "music/track1.mp3" },
-  { title: "Track Two",   src: "music/track2.mp3" },
-  { title: "Track Three", src: "music/track3.mp3" },
+  { title: "Track One",   src: "track1.mp3" },
+  { title: "Track Two",   src: "track2.mp3" },
+  { title: "Track Three", src: "track3.mp3" },
 ];
 
 // Path to the PDF shown in the viewer.
-const PDF_PATH = "docs/fundamentals.pdf";
+const PDF_PATH = "fundamentals.pdf";
 
 // localStorage namespace (bump this to reset everyone's saved state).
 const STORAGE_KEY = "study-dashboard-v1";
