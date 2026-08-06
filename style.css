@@ -1,0 +1,370 @@
+/* =========================================================
+   Fundamentals of Mechanical Engineering — Reference Portal
+   Theme tokens live in :root. Edit these to rebrand quickly.
+   ========================================================= */
+:root {
+  /* --- Palette (deep gray + engineering blue) --- */
+  --bg:            #0b0e14;   /* page background            */
+  --bg-elev:       #10141d;   /* raised solid surface       */
+  --surface:       rgba(22, 28, 40, 0.55); /* glass fill    */
+  --surface-strong:rgba(22, 28, 40, 0.78); /* denser glass  */
+  --border:        rgba(255, 255, 255, 0.08);
+  --border-bright: rgba(255, 255, 255, 0.14);
+
+  --accent:        #3b82f6;   /* primary blue               */
+  --accent-hi:     #60a5fa;   /* hover / bright blue        */
+  --accent-soft:   rgba(59, 130, 246, 0.15);
+
+  --text:          #e6edf3;   /* primary text               */
+  --text-muted:    #8b97a7;   /* secondary text             */
+  --text-faint:    #5a6675;   /* captions / disabled        */
+
+  /* --- Type --- */
+  --font-ui:   "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* --- Shape & depth --- */
+  --radius:      16px;
+  --radius-sm:   10px;
+  --shadow:      0 20px 50px -20px rgba(0, 0, 0, 0.7);
+  --shadow-soft: 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Reset & base --- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  /* Extra bottom padding so the floating player never covers content. */
+  padding: 0 0 200px;
+  font-family: var(--font-ui);
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #141b28 0%, transparent 60%),
+    var(--bg);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   Header / masthead
+   ========================================================= */
+.masthead {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 4vw, 2rem) 1.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-hi);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.9rem, 5vw, 3.15rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.rule {
+  margin-top: 1.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--border) 40%, transparent 100%);
+}
+
+/* =========================================================
+   Document viewer card
+   ========================================================= */
+.viewer-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 2rem);
+}
+
+.doc-card {
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.doc-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-strong);
+}
+
+.doc-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.doc-icon { width: 18px; height: 18px; color: var(--accent-hi); }
+
+.doc-open {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+  white-space: nowrap;
+}
+.doc-open:hover { color: var(--text); border-color: var(--border-bright); background: var(--accent-soft); }
+
+/* Stage holds either the embedded PDF or the placeholder. */
+.doc-stage {
+  position: relative;
+  min-height: min(78vh, 900px);
+  background: var(--bg-elev);
+}
+
+.doc-stage object,
+.doc-stage iframe {
+  display: block;
+  width: 100%;
+  height: min(78vh, 900px);
+  border: 0;
+}
+
+.doc-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-faint);
+}
+
+/* Placeholder shown when the PDF is missing. */
+.doc-missing {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 0.4rem;
+  min-height: min(78vh, 900px);
+  padding: 2rem;
+}
+.doc-missing svg { width: 46px; height: 46px; color: var(--text-faint); }
+.doc-missing h2 { margin: 0.5rem 0 0; font-size: 1.15rem; }
+.doc-missing p  { margin: 0; color: var(--text-muted); max-width: 34ch; }
+.doc-missing code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--accent-hi);
+  background: var(--accent-soft);
+  padding: 0.1em 0.4em;
+  border-radius: 5px;
+}
+
+/* =========================================================
+   Floating music player
+   ========================================================= */
+.player {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  width: min(1080px, calc(100% - 2rem));
+  z-index: 50;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 2fr) auto auto;
+  align-items: center;
+  gap: 1.25rem;
+
+  padding: 0.85rem 1.1rem;
+  background: var(--surface-strong);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Track metadata */
+.player-meta { display: flex; align-items: center; gap: 0.8rem; min-width: 0; }
+
+.player-art {
+  flex: 0 0 auto;
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  color: var(--accent-hi);
+}
+.player-art svg { width: 20px; height: 20px; }
+
+.player-text { min-width: 0; display: flex; flex-direction: column; }
+.player-track {
+  font-weight: 600; font-size: 0.92rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.player-status {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* Progress + timecodes */
+.player-progress { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
+
+.time {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 auto;
+}
+
+.progress {
+  position: relative;
+  flex: 1 1 auto;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  outline: none;
+}
+.progress-fill {
+  position: absolute; left: 0; top: 0; height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hi));
+}
+.progress-knob {
+  position: absolute; top: 50%; left: 0;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.15s var(--ease);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+}
+.progress:hover .progress-knob,
+.progress:focus-visible .progress-knob { transform: translate(-50%, -50%) scale(1); }
+.progress:focus-visible { box-shadow: 0 0 0 2px var(--accent-hi); }
+
+/* Transport controls */
+.player-controls { display: flex; align-items: center; gap: 0.35rem; }
+
+.ctrl {
+  display: grid; place-items: center;
+  width: 38px; height: 38px;
+  border: 0; border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.18s var(--ease), color 0.18s var(--ease), transform 0.1s var(--ease);
+}
+.ctrl svg { width: 19px; height: 19px; }
+.ctrl:hover { color: var(--text); background: rgba(255, 255, 255, 0.06); }
+.ctrl:active { transform: scale(0.92); }
+.ctrl:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+
+/* Active toggle state for shuffle / repeat */
+.ctrl[aria-pressed="true"] { color: var(--accent-hi); }
+.ctrl[aria-pressed="true"]::after {
+  content: ""; position: absolute; margin-top: 26px;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--accent-hi);
+}
+.ctrl { position: relative; }
+
+/* Primary play button */
+.ctrl-primary {
+  width: 48px; height: 48px;
+  background: var(--accent);
+  color: #fff;
+}
+.ctrl-primary:hover { background: var(--accent-hi); color: #fff; }
+.ctrl-primary svg { width: 22px; height: 22px; }
+
+/* Repeat-one badge */
+.repeat-one {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.6rem; font-weight: 600;
+  color: var(--accent-hi);
+  margin-top: 1px;
+}
+
+/* Volume */
+.player-volume { display: flex; align-items: center; gap: 0.4rem; }
+.ctrl-vol { width: 34px; height: 34px; }
+
+.volume-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 92px; height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+}
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: #fff; border: 0;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+.volume-slider::-moz-range-thumb {
+  width: 13px; height: 13px; border: 0; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+.volume-slider:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 3px; }
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 860px) {
+  body { padding-bottom: 250px; }
+
+  .player {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "meta   volume"
+      "prog   prog"
+      "ctrl   ctrl";
+    gap: 0.75rem 1rem;
+  }
+  .player-meta     { grid-area: meta; }
+  .player-volume   { grid-area: volume; }
+  .player-progress { grid-area: prog; }
+  .player-controls { grid-area: ctrl; justify-content: center; gap: 0.6rem; }
+}
+
+@media (max-width: 460px) {
+  .volume-slider { width: 64px; }
+  .doc-open { display: none; } /* keep toolbar tidy on small screens */
+  .player-status { display: none; }
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
