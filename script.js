@@ -9,14 +9,21 @@
 
 // Add / reorder / remove tracks here. `title` is what the UI shows.
 const PLAYLIST = [
-  { title: "Track One",   src: "track1.mp3" },
-  { title: "Track Two",   src: "track2.mp3" },
-  { title: "Track Three", src: "track3.mp3" },
-  { title: "Track Four",  src: "track4.mp3" },
-  { title: "Track Five",  src: "track5.mp3" },
-  { title: "Track Six",   src: "track6.mp3" },
-  { title: "Track Seven", src: "track7.mp3" },
-  { title: "Track Eight", src: "track8.mp3" },
+  { title: "Track One",     src: "track1.mp3" },
+  { title: "Track Two",     src: "track2.mp3" },
+  { title: "Track Three",   src: "track3.mp3" },
+  { title: "Track Four",    src: "track4.mp3" },
+  { title: "Track Five",    src: "track5.mp3" },
+  { title: "Track Six",     src: "track6.mp3" },
+  { title: "Track Seven",   src: "track7.mp3" },
+  { title: "Track Eight",   src: "track8.mp3" },
+  { title: "Track Nine",    src: "track9.mp3" },
+  { title: "Track Ten",     src: "track10.mp3" },
+  { title: "Track Eleven",  src: "track11.mp3" },
+  { title: "Track Twelve",  src: "track12.mp3" },
+  { title: "Track Thirteen",src: "track13.mp3" },
+  { title: "Track Fourteen",src: "track14.mp3" },
+  { title: "Track Fifteen", src: "track15.mp3" },
 ];
 
 // Path to the PDF shown in the viewer.
