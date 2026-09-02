@@ -25,11 +25,11 @@ const PLAYLIST = [
   { title: "Track Fourteen", src: "track14.mp3" },
   { title: "Track Fifteen",  src: "track15.mp3" },
   { title: "Track Sixteen",  src: "track16.mp3" },
-  { title: "Track Seventeen",src: "track17.mp3" },
+  { title: "Track Seventeen", src: "track17.mp3" },
   { title: "Track Eighteen", src: "track18.mp3" },
   { title: "Track Nineteen",  src: "track19.mp3" },
   { title: "Track Twenty",    src: "track20.mp3" },
-];
+]; 
 
 // Path to the PDF shown in the viewer.
 const PDF_PATH = "fundamentalz.pdf";
